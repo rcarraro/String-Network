@@ -1,0 +1,27 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.16.3
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.16.3
+    - run: |
+        cp ./index.js /home/dietpi/bot-discord3
+        rm /home/dietpi/bot-discord3/package.json
+        cp ./package.json /home/dietpi/bot-discord3
+        rm /home/dietpi/bot-discord3/package-lock.json
+        cp ./package-lock.json /home/dietpi/bot-discord3
+        cd /home/dietpi/bot-discord3
+        npm install
+        sudo systemctl restart bot-discord3.service 
